@@ -2,6 +2,7 @@ package org.dstadler.filehandleleak;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,14 @@ class PostProcessFileHandleLeaksTest {
 		PostProcessFileHandleLeaks.main(new String[] {
 				"src/test/resources/output.txt"
 		});
+	}
+
+	@Test
+	public void testMainInvalidArg() throws Exception {
+		assertThrows(FileNotFoundException.class,
+				() -> PostProcessFileHandleLeaks.main(new String[] {
+				"invalid-file.txt"
+		}));
 	}
 
 	@Test
