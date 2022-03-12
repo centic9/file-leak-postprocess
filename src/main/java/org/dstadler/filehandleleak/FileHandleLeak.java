@@ -30,17 +30,18 @@ public class FileHandleLeak {
 			String stack = reader.peekLine();
 			if (stack == null) {
 				// end of file, we may have a stacktrace
-				if (stackTrace.length() > 0) {
-					return new FileHandleLeak(line, stackTrace.toString());
-				} else {
-					return null;
-				}
+				return new FileHandleLeak(line, stackTrace.toString());
 			}
 
 			// the stacktrace continues as long as there is a tab at the beginning of the line
-			if (stack.startsWith("\t")) {
-				stackTrace.append(stack).append('\n');
+			if (!stack.startsWith("\t")) {
+				return new FileHandleLeak(line, stackTrace.toString());
 			}
+
+			// we have to actually read the line now
+			stack = reader.readLine();
+
+			stackTrace.append(stack).append('\n');
 		}
 	}
 
@@ -51,5 +52,9 @@ public class FileHandleLeak {
 
 	public String getStacktrace() {
 		return stacktrace;
+	}
+
+	public String getHeader() {
+		return header;
 	}
 }
