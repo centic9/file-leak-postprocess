@@ -3,7 +3,9 @@ package org.dstadler.filehandleleak;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.ArrayUtils;
+import org.dstadler.commons.arrays.ArrayUtils;
+import org.dstadler.commons.collections.MappedCounter;
+import org.dstadler.commons.collections.MappedCounterImpl;
 
 public class PostProcessFileHandleLeaks {
     public static void main(String[] args) throws Exception {
@@ -32,7 +34,14 @@ public class PostProcessFileHandleLeaks {
 			}
         }
 
-		System.err.println("Found " + leaks.size() + " file-handle-leaks in " + ArrayUtils.toString(args));
-    }
+		// de-duplicate stacktraces
+		MappedCounter<String> uniqueStacks = new MappedCounterImpl<>();
+		for (FileHandleLeak leak : leaks) {
+			uniqueStacks.inc(leak.getStacktrace());
+		}
 
+		System.err.println("Found " + leaks.size() + " file-handle-leaks in " +
+				ArrayUtils.toString(args, ", ", "", ""));
+		System.err.println("Had " + uniqueStacks.sortedMap().keySet().size() + " unique stacktraces: " + uniqueStacks.sortedMap().values());
+    }
 }
