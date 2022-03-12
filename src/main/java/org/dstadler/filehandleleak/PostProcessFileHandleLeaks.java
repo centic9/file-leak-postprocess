@@ -1,7 +1,5 @@
 package org.dstadler.filehandleleak;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +17,7 @@ public class PostProcessFileHandleLeaks {
         for(String location : args) {
             System.err.println("Handling file " + location);
 
-			try (BufferedReaderWithPeek reader = new BufferedReaderWithPeek(new BufferedReader(new FileReader(location)))) {
+			try (BufferedReaderWithPeek reader = new BufferedReaderWithPeek(location)) {
 				while (true) {
 					String line = reader.readLine();
 					if (line == null) {

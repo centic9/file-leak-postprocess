@@ -1,13 +1,28 @@
 package org.dstadler.filehandleleak;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * A small wrapper around BufferedReader which supports a "peek"
+ * of the next line.
+ *
+ * The peeked line is still returned on the next readLine() call.
+ *
+ * This allows to look at the next line without removing it
+ * from the list of lines.
+ */
 public class BufferedReaderWithPeek implements AutoCloseable {
 
 	private final BufferedReader delegate;
 
 	private String peekedLine = null;
+
+	public BufferedReaderWithPeek(String file) throws FileNotFoundException {
+		this(new BufferedReader(new FileReader(file)));
+	}
 
 	public BufferedReaderWithPeek(BufferedReader delegate) {
 		this.delegate = delegate;
@@ -48,7 +63,7 @@ public class BufferedReaderWithPeek implements AutoCloseable {
 	}
 
 	@Override
-	public void close() throws Exception {
+	public void close() throws IOException {
 		delegate.close();
 	}
 }
