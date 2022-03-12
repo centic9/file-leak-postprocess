@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.input.NullInputStream;
 import org.apache.commons.io.input.NullReader;
 import org.apache.commons.lang3.StringUtils;
+import org.dstadler.commons.io.BufferedReaderWithPeek;
 import org.junit.jupiter.api.Test;
 
 class FileHandleLeakTest {

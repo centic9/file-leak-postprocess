@@ -40,7 +40,7 @@ class PostProcessFileHandleLeaksTest {
 	}
 
 	@Test
-	public void testMainInvalidArg() throws Exception {
+	public void testMainInvalidArg() {
 		assertThrows(FileNotFoundException.class,
 				() -> PostProcessFileHandleLeaks.main(new String[] {
 				"invalid-file.txt"
