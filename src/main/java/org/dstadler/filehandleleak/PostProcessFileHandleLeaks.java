@@ -1,5 +1,6 @@
 package org.dstadler.filehandleleak;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +19,19 @@ public class PostProcessFileHandleLeaks {
         }
 
         // walk all files and collect all found stack-traces
+		List<FileHandleLeak> leaks = readFileHandleLeaks(args);
+
+		System.err.println("Found " + leaks.size() + " file-handle-leaks in " +
+				ArrayUtils.toString(args, ", ", "", ""));
+
+		// print out de-duplicated stacktraces
+		processFileHandleLeaks(leaks);
+	}
+
+	protected static List<FileHandleLeak> readFileHandleLeaks(String[] args) throws IOException {
 		List<FileHandleLeak> leaks = new ArrayList<>();
-        for(String location : args) {
-            System.err.println("Handling file " + location);
+		for(String location : args) {
+			System.err.println("Handling file " + location);
 
 			try (BufferedReaderWithPeek reader = new BufferedReaderWithPeek(location)) {
 				while (true) {
@@ -35,9 +46,11 @@ public class PostProcessFileHandleLeaks {
 					}
 				}
 			}
-        }
+		}
+		return leaks;
+	}
 
-		// de-duplicate stacktraces
+	protected static void processFileHandleLeaks(List<FileHandleLeak> leaks) {
 		Multimap<String, FileHandleLeak> leaksByStacktrace = HashMultimap.create();
 		MappedCounter<String> uniqueStacks = new MappedCounterImpl<>();
 		for (FileHandleLeak leak : leaks) {
@@ -46,8 +59,6 @@ public class PostProcessFileHandleLeaks {
 		}
 
 		// print an overview to stderr
-		System.err.println("Found " + leaks.size() + " file-handle-leaks in " +
-				ArrayUtils.toString(args, ", ", "", ""));
 		System.err.println("Had " + uniqueStacks.sortedMap().keySet().size() + " unique stacktraces: " + uniqueStacks.sortedMap().values());
 
 		// print combined stacktraces to stdout
@@ -59,5 +70,5 @@ public class PostProcessFileHandleLeaks {
 
 			System.out.println(stackTrace);
 		}
-    }
+	}
 }
