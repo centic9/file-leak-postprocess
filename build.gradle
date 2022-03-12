@@ -1,0 +1,42 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceCompatibility = 11
+
+mainClassName = 'org.dstadler.filesearch.LookForFileType'
+applicationDefaultJvmArgs = ['-Xmx1g', '-XX:+HeapDumpOnOutOfMemoryError']
+version = '1.0'
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Application to de-duplicate and shorten stacktraces from file-leak-detector', 'Implementation-Version': archiveVersion
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'commons-io:commons-io:2.11.0'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'org.dstadler:commons-dost:1.1.0.0'
+
+    testImplementation 'org.dstadler:commons-test:1.0.0.19'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+	testImplementation 'org.mockito:mockito-core:4.4.0'
+}
+
+wrapper {
+    gradleVersion = '6.6.1'
+}
+
+test {
+	useJUnitPlatform()
+}
