@@ -32,7 +32,7 @@ public class PostProcessFileHandleLeaks {
 			}
         }
 
-		System.err.println("Found " + leaks + " file-handle-leaks in " + ArrayUtils.toString(args));
+		System.err.println("Found " + leaks.size() + " file-handle-leaks in " + ArrayUtils.toString(args));
     }
 
 }
