@@ -22,13 +22,13 @@ class FileHandleLeakTest {
 	public void testParseLineNoMatch() throws IOException {
 		assertNull(FileHandleLeak.parse("header", null));
 		assertNull(FileHandleLeak.parse("some longer line with no stacktrace", null));
-		assertNull(FileHandleLeak.parse(" #227 /opt/cluster/managed/ui/components/gwt.common.onprem/bin/main/com/example/test/webui/gwt/common/onprem/widgets/testbutton/OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022", null));
+		assertNull(FileHandleLeak.parse(" #227 /opt/OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022", null));
 	}
 
 	@Test
 	public void testParseLineEmptyStack() throws IOException {
 		FileHandleLeak leak = FileHandleLeak.parse(
-				"#227 /opt/cluster/managed/ui/components/gwt.common.onprem/bin/main/com/example/test/webui/gwt/common/onprem/widgets/testbutton/OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
+				"#227 /opt/OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
 				new BufferedReaderWithPeek(new BufferedReader(new NullReader())));
 
 		assertNotNull(leak);
@@ -39,7 +39,7 @@ class FileHandleLeakTest {
 	@Test
 	public void testParseLineAndStack() throws IOException {
 		FileHandleLeak leak = FileHandleLeak.parse(
-				"#227 /opt/cluster/managed/ui/components/gwt.common.onprem/bin/main/com/example/test/webui/gwt/common/onprem/widgets/testbutton/OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
+				"#227 /opt//OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
 				new BufferedReaderWithPeek(new BufferedReader(new StringReader(
 					"\tstack1\n" +
 						"\tstack2\n" +
@@ -60,7 +60,6 @@ class FileHandleLeakTest {
 					break;
 				}
 
-
 				FileHandleLeak leak = FileHandleLeak.parse(line, reader);
 				if (leak != null) {
 					count++;
@@ -69,5 +68,23 @@ class FileHandleLeakTest {
 		}
 
 		assertEquals(2, count);
+	}
+
+	@Test
+	public void testIgnoreLines() throws IOException {
+		FileHandleLeak leak = FileHandleLeak.parse(
+				"#227 /opt//OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
+				new BufferedReaderWithPeek(new BufferedReader(new StringReader(
+						"\tstack1\n" +
+							"\tat java.base/java.util.stream.blabla1\n" +
+							"\tat java.base/java.util.stream.blabla2\n" +
+							"\tat java.base/java.util.stream.blabla3\n" +
+							"\tstack2\n" +
+							"\tat java.base/java.util.stream.blabla4\n" +
+							"no stack any more"))));
+
+		assertNotNull(leak);
+		assertTrue(StringUtils.isNotBlank(leak.getHeader()));
+		assertEquals("\tstack1\n\t...\n\tstack2\n\t...\n", leak.getStacktrace());
 	}
 }

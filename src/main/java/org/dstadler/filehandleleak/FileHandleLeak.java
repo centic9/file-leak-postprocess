@@ -1,13 +1,48 @@
 package org.dstadler.filehandleleak;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class FileHandleLeak {
+	public static final String IGNORE_PATTERN_FILE = "ignore_pattern.txt";
 
 	// #228 /opt/cluster/bin/main/com/ebui/gwt/common/widgets/Search.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022
 	private static final Pattern STACKTRACE_START = Pattern.compile("^#\\d+ (.*?) by thread:(.*) on (.*)");
+
+	private static final List<Pattern> IGNORE_PATTERN = new ArrayList<>();
+
+	static {
+		InputStream stream = FileHandleLeak.class.getClassLoader().getResourceAsStream(IGNORE_PATTERN_FILE);
+		if (stream == null) {
+			throw new IllegalStateException("Could not read file " + IGNORE_PATTERN_FILE + " from classpath");
+		}
+
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+			while (true) {
+				String line = reader.readLine();
+				if (line == null) {
+					break;
+				}
+
+				// ignore empty lines or lines starting with '#'
+				if (StringUtils.isBlank(line) || line.startsWith("#")) {
+					continue;
+				}
+
+				IGNORE_PATTERN.add(Pattern.compile(line));
+			}
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		}
+	}
 
 	private final String header;
 	private final String stacktrace;
@@ -25,6 +60,7 @@ public class FileHandleLeak {
 			return null;
 		}
 
+		boolean hasMarkedIgnored = false;
 		StringBuilder stackTrace = new StringBuilder();
 		while (true) {
 			String stack = reader.peekLine();
@@ -41,8 +77,31 @@ public class FileHandleLeak {
 			// we have to actually read the line now
 			stack = reader.readLine();
 
+			// check if this line should be removed from stacktraces
+			if (isIgnored(stack)) {
+				// add a ... for each removed block
+				if (!hasMarkedIgnored) {
+					stackTrace.append("\t...\n");
+					hasMarkedIgnored = true;
+				}
+				continue;
+			}
+
 			stackTrace.append(stack).append('\n');
+
+			// we wrote a normal line, so no marker is currently added
+			hasMarkedIgnored = false;
 		}
+	}
+
+	private static boolean isIgnored(String stack) {
+		for (Pattern pattern : IGNORE_PATTERN) {
+			if (pattern.matcher(stack).matches()) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public FileHandleLeak(String header, String stacktrace) {
