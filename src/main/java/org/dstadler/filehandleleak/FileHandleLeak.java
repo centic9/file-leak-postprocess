@@ -11,6 +11,8 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.common.annotations.VisibleForTesting;
+
 public class FileHandleLeak {
 	public static final String IGNORE_PATTERN_FILE = "ignore_pattern.txt";
 
@@ -20,11 +22,17 @@ public class FileHandleLeak {
 	private static final List<Pattern> IGNORE_PATTERN = new ArrayList<>();
 
 	static {
-		InputStream stream = FileHandleLeak.class.getClassLoader().getResourceAsStream(IGNORE_PATTERN_FILE);
+		// populate ignore-patterns from a text-file
+		IGNORE_PATTERN.addAll(readIgnorePatterns(FileHandleLeak.class.getClassLoader().getResourceAsStream(IGNORE_PATTERN_FILE)));
+	}
+
+	@VisibleForTesting
+	protected static List<Pattern> readIgnorePatterns(InputStream stream) {
 		if (stream == null) {
 			throw new IllegalStateException("Could not read file " + IGNORE_PATTERN_FILE + " from classpath");
 		}
 
+		List<Pattern> patterns = new ArrayList<>();
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
 			while (true) {
 				String line = reader.readLine();
@@ -37,11 +45,13 @@ public class FileHandleLeak {
 					continue;
 				}
 
-				IGNORE_PATTERN.add(Pattern.compile(line));
+				patterns.add(Pattern.compile(line));
 			}
 		} catch (IOException e) {
 			throw new IllegalStateException(e);
 		}
+
+		return patterns;
 	}
 
 	private final String header;

@@ -1,11 +1,18 @@
 package org.dstadler.filehandleleak;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 
+import org.apache.commons.io.input.NullInputStream;
 import org.apache.commons.io.input.NullReader;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
@@ -86,5 +93,32 @@ class FileHandleLeakTest {
 		assertNotNull(leak);
 		assertTrue(StringUtils.isNotBlank(leak.getHeader()));
 		assertEquals("\tstack1\n\t...\n\tstack2\n\t...\n", leak.getStacktrace());
+	}
+
+	@Test
+	public void testReadIgnorePatternsNotFound() {
+		assertThrows(IllegalStateException.class, () -> FileHandleLeak.readIgnorePatterns(null));
+	}
+
+	@Test
+	public void testReadIgnorePatternsException() {
+		assertThrows(IllegalStateException.class,
+				() -> FileHandleLeak.readIgnorePatterns(new NullInputStream(100, false, true)));
+	}
+
+	@Test
+	public void testReadIgnorePatterns() {
+		assertEquals(0, FileHandleLeak.readIgnorePatterns(new NullInputStream()).size());
+		assertEquals(0, FileHandleLeak.readIgnorePatterns(
+				new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8))).size());
+
+		assertEquals(2, FileHandleLeak.readIgnorePatterns(
+				new ByteArrayInputStream((
+						"pattern1\n"
+						+ "pattern2\n"
+						+ "\n"
+						+ "\n"
+						+ "# a comment\n"
+						+ "\n").getBytes(StandardCharsets.UTF_8))).size());
 	}
 }
