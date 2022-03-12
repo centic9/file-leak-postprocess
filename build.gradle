@@ -3,7 +3,7 @@ apply plugin: 'application'
 
 sourceCompatibility = 11
 
-mainClassName = 'org.dstadler.filesearch.LookForFileType'
+mainClassName = 'org.dstadler.filehandleleak.PostProcessFileHandleLeaks'
 applicationDefaultJvmArgs = ['-Xmx1g', '-XX:+HeapDumpOnOutOfMemoryError']
 version = '1.0'
 
