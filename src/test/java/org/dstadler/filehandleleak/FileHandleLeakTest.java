@@ -49,4 +49,25 @@ class FileHandleLeakTest {
 		assertTrue(StringUtils.isNotBlank(leak.getHeader()));
 		assertEquals("\tstack1\n\tstack2\n", leak.getStacktrace());
 	}
+
+	@Test
+	public void testParseSampleFile() throws IOException {
+		int count = 0;
+		try (BufferedReaderWithPeek reader = new BufferedReaderWithPeek("src/test/resources/output.txt")) {
+			while (true) {
+				String line = reader.readLine();
+				if (line == null) {
+					break;
+				}
+
+
+				FileHandleLeak leak = FileHandleLeak.parse(line, reader);
+				if (leak != null) {
+					count++;
+				}
+			}
+		}
+
+		assertEquals(2, count);
+	}
 }
