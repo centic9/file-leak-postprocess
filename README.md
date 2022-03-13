@@ -1,4 +1,5 @@
-[![Gradle Status](https://gradleupdate.appspot.com/centic9/file-leak-postprocess/status.svg?branch=main)](https://gradleupdate.appspot.com/centic9/file-leak-postprocess/status)
+[![Build Status](https://github.com/centic9/file-leak-postprocess/actions/workflows/gradle-build.yml/badge.svg)](https://github.com/centic9/file-leak-postprocess/actions)
+[![Gradle Status](https://gradleupdate.appspot.com/centic9/file-leak-postprocess/status.svg?branch=master)](https://gradleupdate.appspot.com/centic9/file-leak-postprocess/status)
 
 This is a small tool to post-process output from running an application with [file-leak-detector](https://github.com/jenkinsci/lib-file-leak-detector).
 
