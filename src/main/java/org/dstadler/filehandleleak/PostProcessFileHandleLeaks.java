@@ -15,6 +15,8 @@ import com.google.common.collect.Multimap;
 public class PostProcessFileHandleLeaks {
     public static void main(String[] args) throws Exception {
         if(args.length == 0) {
+			System.err.println("Specify one or more text-files with stacktraces produced by file-leak-detector");
+			System.err.println("\nCombined output will be printed to stdout\n");
             System.err.println("Usage: " + PostProcessFileHandleLeaks.class.getName() + " <text-file> [<test-file> ...]");
             return;
         }
