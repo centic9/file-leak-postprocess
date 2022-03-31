@@ -5,21 +5,19 @@
 #
 # The leading tab is important!
 #
-	at jdk.internal.reflect.GeneratedMethodAccessor46.invoke.*
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:686)
-	at org.junit.jupiter.*
-	at org.junit.platform.*
-	at java.base/java.util.stream.*
-	at org.gradle.api.internal.*
-	at java.base/jdk.internal.reflect.*
-	at java.base/java.lang.reflect.*
-	at org.gradle.internal.*
 	at com.sun.proxy.*
-	at org.gradle.process.*
-	at worker.org.gradle.process.*
+	at java.base/java.lang.reflect.*
 	at java.base/java.util.ArrayList.forEach.*
 	at java.base/java.util.ArrayList\$ArrayListSpliterator.forEachRemaining.*
+	at java.base/java.util.Optional.orElseGet.*
 	at java.base/java.util.Spliterators\$ArraySpliterator.forEachRemaining.*
-	at jdk.internal.reflect.GeneratedMethodAccessor6.invoke.*
+	at java.base/java.util.stream.*
+	at java.base/jdk.internal.reflect.*
+	at jdk.internal.reflect.GeneratedConstructorAccessor\d+.newInstance.*
+	at jdk.internal.reflect.GeneratedMethodAccessor\d+.invoke.*
+	at org.gradle.api.internal.*
+	at org.gradle.internal.*
+	at org.gradle.process.*
+	at org.junit.jupiter.*
+	at org.junit.platform.*
+	at worker.org.gradle.process.*
