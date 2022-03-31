@@ -14,6 +14,17 @@ import org.dstadler.commons.io.BufferedReaderWithPeek;
 
 import com.google.common.annotations.VisibleForTesting;
 
+/**
+ * This class handles reported stacktraces from file-leak-detector.
+ *
+ * Method parse() will check if the line indicates the start of a stacktrace.
+ * It will read all stacktrace-lines and return an object that can be used
+ * for further processing.
+ *
+ * Lines listed in {@link org.dstadler.filehandleleak.FileHandleLeak#IGNORE_PATTERN_FILE}
+ * are removed from stacktraces to make them as small as possible, while still retaining
+ * all the required information for analysing and fixing the file-handle leaks.
+ */
 public class FileHandleLeak {
 	public static final String IGNORE_PATTERN_FILE = "ignore_pattern.txt";
 

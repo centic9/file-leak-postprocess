@@ -12,6 +12,15 @@ import org.dstadler.commons.io.BufferedReaderWithPeek;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
+/**
+ * Small application which reads output from file-leak-detector,
+ * reduces stacktraces as much as possible and combines similar
+ * stacktraces to list similar stacktraces only once.
+ *
+ * It will print out results on stdout.
+ *
+ * Errors and progress information is printed to stderr.
+ */
 public class PostProcessFileHandleLeaks {
     public static void main(String[] args) throws Exception {
         if(args.length == 0) {
