@@ -1,6 +1,7 @@
 package org.dstadler.filehandleleak;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -24,6 +25,7 @@ class FileHandleLeakTest {
 		FileHandleLeak leak = new FileHandleLeak("header", "stacktrace");
 		assertEquals("header", leak.getHeader());
 		assertEquals("stacktrace", leak.getStacktrace());
+		assertEquals("stacktrace", leak.getLastLine());
 	}
 
 	@Test
@@ -42,6 +44,7 @@ class FileHandleLeakTest {
 		assertNotNull(leak);
 		assertTrue(StringUtils.isNotBlank(leak.getHeader()));
 		assertEquals("", leak.getStacktrace());
+		assertEquals("", leak.getLastLine());
 	}
 
 	@Test
@@ -56,6 +59,7 @@ class FileHandleLeakTest {
 		assertNotNull(leak);
 		assertTrue(StringUtils.isNotBlank(leak.getHeader()));
 		assertEquals("\tstack1\n\tstack2\n", leak.getStacktrace());
+		assertEquals("\tstack2", leak.getLastLine());
 	}
 
 	@Test
@@ -71,6 +75,12 @@ class FileHandleLeakTest {
 				FileHandleLeak leak = FileHandleLeak.parse(line, reader);
 				if (leak != null) {
 					count++;
+
+					assertNotNull(leak.getHeader());
+					assertNotNull(leak.getStacktrace());
+					assertNotNull(leak.getLastLine());
+
+					assertFalse(leak.getLastLine().contains("..."));
 				}
 			}
 		}
@@ -94,6 +104,7 @@ class FileHandleLeakTest {
 		assertNotNull(leak);
 		assertTrue(StringUtils.isNotBlank(leak.getHeader()));
 		assertEquals("\tstack1\n\t...\n\tstack2\n\t...\n", leak.getStacktrace());
+		assertEquals("\tstack2", leak.getLastLine());
 	}
 
 	@Test
