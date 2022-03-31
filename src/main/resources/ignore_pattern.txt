@@ -20,5 +20,6 @@
 	at org.gradle.process.*
 	at worker.org.gradle.process.*
 	at java.base/java.util.ArrayList.forEach.*
-	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining.*
+	at java.base/java.util.ArrayList\$ArrayListSpliterator.forEachRemaining.*
+	at java.base/java.util.Spliterators\$ArraySpliterator.forEachRemaining.*
 	at jdk.internal.reflect.GeneratedMethodAccessor6.invoke.*
