@@ -3,6 +3,8 @@ package org.dstadler.filehandleleak;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.dstadler.commons.arrays.ArrayUtils;
 import org.dstadler.commons.collections.MappedCounter;
@@ -73,8 +75,12 @@ public class PostProcessFileHandleLeaks {
 		// print an overview to stderr
 		System.err.println("Had " + uniqueStacks.sortedMap().keySet().size() + " unique stacktraces: " + uniqueStacks.sortedMap().values());
 
+		// sort lines by the "last line" of the stacktrace to have similar leaks grouped together
+		Set<String> sortedStacktraces = new TreeSet<>(new SortByLastLine(leaksByStacktrace));
+		sortedStacktraces.addAll(leaksByStacktrace.keySet());
+
 		// print combined stacktraces to stdout
-		for (String stackTrace : leaksByStacktrace.keySet()) {
+		for (String stackTrace : sortedStacktraces) {
 			// print all headers
 			for (FileHandleLeak fileHandleLeak : leaksByStacktrace.get(stackTrace)) {
 				System.out.println(fileHandleLeak.getHeader());
