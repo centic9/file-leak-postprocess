@@ -1,19 +1,19 @@
 [![Build Status](https://github.com/centic9/file-leak-postprocess/actions/workflows/gradle-build.yml/badge.svg)](https://github.com/centic9/file-leak-postprocess/actions)
 [![Gradle Status](https://gradleupdate.appspot.com/centic9/file-leak-postprocess/status.svg?branch=master)](https://gradleupdate.appspot.com/centic9/file-leak-postprocess/status)
 
-This is a small tool to post-process output from running an application with [file-leak-detector](https://github.com/jenkinsci/lib-file-leak-detector).
+This is a small tool to post-process output from [file-leak-detector](https://github.com/jenkinsci/lib-file-leak-detector) when it is executed with `dumpatshutdown`.
 
-file-leak-detector will print out all found stacktraces where file-handles were not closed. 
+file-leak-detector will simply print out all found stacktraces where file-handles were not closed. 
 
 This has a few shortcomings when running on large-scale projects.
 
 * Multiple equal stacktrace are printed, requiring to skim through many similar results
-* Many items in the stacktraces are unimportant for analyzing the file-handle leaks, 
-  e.g. stack-trace lines from thread-pools, JUnit calls, ...
+* Many lines in the stacktraces are unimportant for analyzing the file-handle leaks, 
+  e.g. stack-trace lines from thread-pools, JUnit, ...
 
-This tool parses one or more input text-files and extracts stacktraces that were produced by
-file-leak-detector and shortens and de-duplicate them into a smaller list of actual interesting
-code-locations.
+In order to make this easier, this tool parses one or more input text-files and extracts stacktraces 
+that were produced by file-leak-detector and shortens and de-duplicate them into a smaller list 
+of actual interesting code-locations.
 
 The found stack-traces are printed to stdout. Summary/error information is printed to stderr.
 
@@ -23,7 +23,7 @@ So a typical invocation will redirect stdout to a file via `> file-handle-leaks.
 
 ##### Grab it
 
-    git clone git://github.com/centic9/file-leak-postprocess
+    git clone https://github.com/centic9/file-leak-postprocess.git
     cd file-leak-postprocess
 
 ##### Build it
