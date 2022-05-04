@@ -13,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.dstadler.commons.io.BufferedReaderWithPeek;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
 
 /**
  * This class handles reported stacktraces from file-leak-detector.
@@ -142,7 +141,6 @@ public class FileHandleLeak {
 
 	public String getLastLine() {
 		String[] lines = StringUtils.removeEnd(stacktrace, "\t...\n").split("\n");
-		Preconditions.checkState(lines.length > 0, "Did not have a line for stacktrace: \n%s", stacktrace);
 		return lines[lines.length-1];
 	}
 }
