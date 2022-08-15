@@ -5,7 +5,7 @@ apply plugin: 'jacoco'
 sourceCompatibility = 11
 
 mainClassName = 'org.dstadler.filehandleleak.PostProcessFileHandleLeaks'
-applicationDefaultJvmArgs = ['-Xmx128m', '-XX:+HeapDumpOnOutOfMemoryError']
+applicationDefaultJvmArgs = ['-Xmx256m', '-XX:+HeapDumpOnOutOfMemoryError']
 version = '1.0'
 
 jar {
