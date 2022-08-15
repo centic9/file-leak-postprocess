@@ -77,15 +77,29 @@ class FileHandleLeakTest {
 					count++;
 
 					assertNotNull(leak.getHeader());
-					assertNotNull(leak.getStacktrace());
+					String stacktrace = leak.getStacktrace();
+					assertNotNull(stacktrace);
 					assertNotNull(leak.getLastLine());
 
-					assertFalse(leak.getLastLine().contains("..."));
+					assertFalse(leak.getLastLine().contains("..."),
+							"Had: " + leak.getHeader() + "\n"  + stacktrace + "\n\n" +
+									leak.getLastLine() );
+
+					// we want to replace all lines for some packages
+					assertFalse(stacktrace.contains("junit"),
+							"Had: " + leak.getHeader() + "\n"  + stacktrace + "\n\n" +
+									leak.getLastLine() );
+					assertFalse(stacktrace.contains("mockito"),
+							"Had: " + leak.getHeader() + "\n"  + stacktrace + "\n\n" +
+									leak.getLastLine() );
+					assertFalse(stacktrace.contains("gradle"),
+							"Had: " + leak.getHeader() + "\n"  + stacktrace + "\n\n" +
+									leak.getLastLine() );
 				}
 			}
 		}
 
-		assertEquals(2, count);
+		assertEquals(3, count);
 	}
 
 	@Test

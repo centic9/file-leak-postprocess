@@ -16,7 +16,7 @@ class PostProcessFileHandleLeaksTest {
 				"src/test/resources/output.txt"
 		});
 
-		assertEquals(2, leaks.size());
+		assertEquals(3, leaks.size());
 	}
 
 	@Test

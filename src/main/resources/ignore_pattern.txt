@@ -20,6 +20,12 @@
 	at org.gradle.api.internal.*
 	at org.gradle.internal.*
 	at org.gradle.process.*
+	at org.junit.internal.runners.*
 	at org.junit.jupiter.*
 	at org.junit.platform.*
+	at org.junit.runner.*
+	at org.junit.runners.*
+	at org.junit.vintage.*
+	at org.mockito.junit.*
+	at org.mockito.internal.*
 	at worker.org.gradle.process.*
