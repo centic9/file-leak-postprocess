@@ -23,6 +23,7 @@
 	at org.junit.internal.runners.*
 	at org.junit.jupiter.*
 	at org.junit.platform.*
+	at org.junit.rules.*
 	at org.junit.runner.*
 	at org.junit.runners.*
 	at org.junit.vintage.*
