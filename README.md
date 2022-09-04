@@ -5,15 +5,15 @@ This is a small tool to post-process output from [file-leak-detector](https://gi
 
 file-leak-detector will simply print out all found stacktraces where file-handles were not closed. 
 
-This has a few shortcomings when running on large-scale projects.
+This has a few shortcomings when running on large-scale projects:
 
 * Multiple equal stacktrace are printed, requiring to skim through many similar results
 * Many lines in the stacktraces are unimportant for analyzing the file-handle leaks, 
   e.g. stack-trace lines from thread-pools, JUnit, ...
 
-In order to make this easier, this tool parses one or more input text-files and extracts stacktraces 
-that were produced by file-leak-detector and shortens and de-duplicate them into a smaller list 
-of actual interesting code-locations.
+In order to make analyzing and fixing file-handle leaks easier, this tool parses one or more input 
+text-files and extracts stacktraces that were produced by file-leak-detector and shortens and 
+de-duplicate them into a smaller list of actual interesting code-locations.
 
 The found stack-traces are printed to stdout. Summary/error information is printed to stderr.
 
