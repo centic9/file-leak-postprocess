@@ -7,6 +7,8 @@
 #
 	at com.sun.proxy.*
 	at java.base/java.lang.reflect.*
+	at java.base/java.util.concurrent.CountedCompleter.*
+	at java.base/java.util.concurrent.ForkJoin.*
 	at java.base/java.util.ArrayList.forEach.*
 	at java.base/java.util.ArrayList\$ArrayListSpliterator.forEachRemaining.*
 	at java.base/java.util.Iterator.forEachRemaining.*

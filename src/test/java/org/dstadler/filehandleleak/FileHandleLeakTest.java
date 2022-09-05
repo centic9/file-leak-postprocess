@@ -95,6 +95,9 @@ class FileHandleLeakTest {
 					assertFalse(stacktrace.contains("gradle"),
 							"Had: " + leak.getHeader() + "\n"  + stacktrace + "\n\n" +
 									leak.getLastLine() );
+					assertFalse(stacktrace.contains("java.util"),
+							"Had: " + leak.getHeader() + "\n"  + stacktrace + "\n\n" +
+									leak.getLastLine() );
 				}
 			}
 		}
