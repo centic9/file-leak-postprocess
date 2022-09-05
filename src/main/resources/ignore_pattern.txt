@@ -5,6 +5,7 @@
 #
 # The leading tab is important!
 #
+	at akka.dispatch.forkjoin.*
 	at com.sun.proxy.*
 	at java.base/java.lang.reflect.*
 	at java.base/java.util.concurrent.CountedCompleter.*
