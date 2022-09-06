@@ -314,6 +314,7 @@ Daemon will be stopped at the end of the build
 	at akka.dispatch.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339)
 	at akka.dispatch.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979)
 	at akka.dispatch.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107)
+	at java.base/java.lang.Thread.run(Thread.java:829)
 ----
 
 > Task :managed:ui:components:gwt.clustermanagement:copyTestResult_test
