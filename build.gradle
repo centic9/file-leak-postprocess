@@ -23,10 +23,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'commons-io:commons-io:2.12.0'
+    implementation 'commons-io:commons-io:2.13.0'
 	implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'org.dstadler:commons-dost:1.2.0.1'
-	implementation 'com.google.guava:guava:32.0.0-jre'
+	implementation 'com.google.guava:guava:32.0.1-jre'
 
     testImplementation 'org.dstadler:commons-test:1.0.0.20'
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
