@@ -52,7 +52,7 @@ If you find this tool useful and would like to support it, you can [Sponsor the 
 
 ### Licensing
 
-   Copyright 2022 Dominik Stadler
+   Copyright 2022-2024 Dominik Stadler
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
