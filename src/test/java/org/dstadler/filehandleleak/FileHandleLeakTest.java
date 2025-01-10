@@ -149,6 +149,26 @@ class FileHandleLeakTest {
 	}
 
 	@Test
+	public void testIgnoreLinesSpaces() throws IOException {
+		FileHandleLeak leak = FileHandleLeak.parse(
+				"#227 /opt//OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
+				new BufferedReaderWithPeek(new BufferedReader(new StringReader(
+						"""
+								        stack1
+								        at java.base/java.util.stream.blabla1
+								        at java.base/java.util.stream.blabla2
+								        at java.base/java.util.stream.blabla3
+								        stack2
+								        at java.base/java.util.stream.blabla4
+								no stack any more"""))));
+
+		assertNotNull(leak);
+		assertTrue(StringUtils.isNotBlank(leak.header()));
+		assertEquals("        stack1\n\t...\n        stack2\n\t...\n", leak.stacktrace());
+		assertEquals("        stack2", leak.getLastLine());
+	}
+
+	@Test
 	public void testReadIgnorePatternsNotFound() {
 		assertThrows(IllegalStateException.class, () -> FileHandleLeak.readIgnorePatterns(null));
 	}
