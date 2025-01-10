@@ -24,45 +24,50 @@ class SortByLastLineTest {
 		FileHandleLeak leak1 = FileHandleLeak.parse(
 				"#226 /opt//OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
 				new BufferedReaderWithPeek(new BufferedReader(new StringReader(
-						"\tstack1\n" +
-								"\tstack2\n" +
-								"no stack any more"))));
+						"""
+								\tstack1
+								\tstack2
+								no stack any more"""))));
 		assertNotNull(leak1);
 		leaksByStacktrace.put(leak1.header(), leak1);
 
 		FileHandleLeak leak2 = FileHandleLeak.parse(
 				"#226 /opt//OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
 				new BufferedReaderWithPeek(new BufferedReader(new StringReader(
-						"\tstack1\n" +
-								"\tstack2\n" +
-								"no stack any more"))));
+						"""
+								\tstack1
+								\tstack2
+								no stack any more"""))));
 		assertNotNull(leak2);
 		leaksByStacktrace.put(leak2.header(), leak2);
 
 		FileHandleLeak leak3 = FileHandleLeak.parse(
 				"#228 /opt//OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
 				new BufferedReaderWithPeek(new BufferedReader(new StringReader(
-						"\tstack1\n" +
-								"\tstack3\n" +
-								"no stack any more"))));
+						"""
+								\tstack1
+								\tstack3
+								no stack any more"""))));
 		assertNotNull(leak3);
 		leaksByStacktrace.put(leak3.header(), leak3);
 
 		FileHandleLeak leak4 = FileHandleLeak.parse(
 				"#229 /opt//OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
 				new BufferedReaderWithPeek(new BufferedReader(new StringReader(
-						"\tstack1\n" +
-								"\tstack2\n" +
-								"no stack any more"))));
+						"""
+								\tstack1
+								\tstack2
+								no stack any more"""))));
 		assertNotNull(leak4);
 		leaksByStacktrace.put(leak4.header(), leak4);
 
 		FileHandleLeak leak5 = FileHandleLeak.parse(
 				"#230 /opt//OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
 				new BufferedReaderWithPeek(new BufferedReader(new StringReader(
-						"\tstack1\n" +
-								"\tstack2\n" +
-								"other stack any more"))));
+						"""
+								\tstack1
+								\tstack2
+								other stack any more"""))));
 		assertNotNull(leak5);
 		leaksByStacktrace.put(leak5.header(), leak5);
 
@@ -85,16 +90,15 @@ class SortByLastLineTest {
 		FileHandleLeak leak = FileHandleLeak.parse(
 				"#226 /opt//OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
 				new BufferedReaderWithPeek(new BufferedReader(new StringReader(
-						"\tstack1\n" +
-								"\tstack2\n" +
-								"no stack any more"))));
+						"""
+								\tstack1
+								\tstack2
+								no stack any more"""))));
 		assertNotNull(leak);
 		leaksByStacktrace.put(leak.header(), leak);
 
-		//noinspection ResultOfMethodCallIgnored
 		assertThrows(IllegalStateException.class,
 				() -> comp.compare(leak.header(), "blabla"));
-		//noinspection ResultOfMethodCallIgnored
 		assertThrows(IllegalStateException.class,
 				() -> comp.compare("blabla2", leak.header()));
 	}
