@@ -7,17 +7,17 @@
 #
 	at akka.dispatch.forkjoin.*
 	at com.sun.proxy.*
-	at java.base/java.lang.reflect.*
 	at java.base/java.lang.Thread.*
-	at java.base/java.util.concurrent.CountedCompleter.*
-	at java.base/java.util.concurrent.ForkJoin.*
-	at java.base/java.util.concurrent.ThreadPoolExecutor.*
+	at java.base/java.lang.reflect.*
 	at java.base/java.util.ArrayList.forEach.*
 	at java.base/java.util.ArrayList\$ArrayListSpliterator.forEachRemaining.*
 	at java.base/java.util.Iterator.forEachRemaining.*
 	at java.base/java.util.Optional.orElseGet.*
 	at java.base/java.util.Spliterators\$ArraySpliterator.forEachRemaining.*
 	at java.base/java.util.Spliterators\$IteratorSpliterator.forEachRemaining.*
+	at java.base/java.util.concurrent.CountedCompleter.*
+	at java.base/java.util.concurrent.ForkJoin.*
+	at java.base/java.util.concurrent.ThreadPoolExecutor.*
 	at java.base/java.util.stream.*
 	at java.base/jdk.internal.reflect.*
 	at jdk.internal.reflect.GeneratedConstructorAccessor\d+.newInstance.*
@@ -32,6 +32,6 @@
 	at org.junit.runner.*
 	at org.junit.runners.*
 	at org.junit.vintage.*
-	at org.mockito.junit.*
 	at org.mockito.internal.*
+	at org.mockito.junit.*
 	at worker.org.gradle.process.*
