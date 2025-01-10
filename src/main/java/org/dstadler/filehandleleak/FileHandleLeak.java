@@ -92,7 +92,7 @@ public class FileHandleLeak {
 			}
 
 			// the stacktrace continues as long as there is a tab at the beginning of the line
-			if (!stack.startsWith("\t")) {
+			if (!stack.startsWith("\t") && !stack.startsWith("        ")) {
 				return new FileHandleLeak(line, stackTrace.toString());
 			}
 

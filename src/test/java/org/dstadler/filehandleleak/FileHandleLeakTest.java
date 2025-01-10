@@ -52,14 +52,31 @@ class FileHandleLeakTest {
 		FileHandleLeak leak = FileHandleLeak.parse(
 				"#227 /opt//OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
 				new BufferedReaderWithPeek(new BufferedReader(new StringReader(
-					"\tstack1\n" +
-						"\tstack2\n" +
-						"no stack any more"))));
+						"""
+								\tstack1
+								\tstack2
+								no stack any more"""))));
 
 		assertNotNull(leak);
 		assertTrue(StringUtils.isNotBlank(leak.getHeader()));
 		assertEquals("\tstack1\n\tstack2\n", leak.getStacktrace());
 		assertEquals("\tstack2", leak.getLastLine());
+	}
+
+	@Test
+	public void testParseLineAndStackWithSpaces() throws IOException {
+		FileHandleLeak leak = FileHandleLeak.parse(
+				"#227 /opt//OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
+				new BufferedReaderWithPeek(new BufferedReader(new StringReader(
+						"""
+								        stack1
+								        stack2
+								no stack any more"""))));
+
+		assertNotNull(leak);
+		assertTrue(StringUtils.isNotBlank(leak.getHeader()));
+		assertEquals("        stack1\n        stack2\n", leak.getStacktrace());
+		assertEquals("        stack2", leak.getLastLine());
 	}
 
 	@Test
@@ -116,13 +133,14 @@ class FileHandleLeakTest {
 		FileHandleLeak leak = FileHandleLeak.parse(
 				"#227 /opt//OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
 				new BufferedReaderWithPeek(new BufferedReader(new StringReader(
-						"\tstack1\n" +
-							"\tat java.base/java.util.stream.blabla1\n" +
-							"\tat java.base/java.util.stream.blabla2\n" +
-							"\tat java.base/java.util.stream.blabla3\n" +
-							"\tstack2\n" +
-							"\tat java.base/java.util.stream.blabla4\n" +
-							"no stack any more"))));
+						"""
+								\tstack1
+								\tat java.base/java.util.stream.blabla1
+								\tat java.base/java.util.stream.blabla2
+								\tat java.base/java.util.stream.blabla3
+								\tstack2
+								\tat java.base/java.util.stream.blabla4
+								no stack any more"""))));
 
 		assertNotNull(leak);
 		assertTrue(StringUtils.isNotBlank(leak.getHeader()));
@@ -149,11 +167,13 @@ class FileHandleLeakTest {
 
 		assertEquals(2, FileHandleLeak.readIgnorePatterns(
 				new ByteArrayInputStream((
-						"pattern1\n"
-						+ "pattern2\n"
-						+ "\n"
-						+ "\n"
-						+ "# a comment\n"
-						+ "\n").getBytes(StandardCharsets.UTF_8))).size());
+						"""
+								pattern1
+								pattern2
+								
+								
+								# a comment
+								
+								""").getBytes(StandardCharsets.UTF_8))).size());
 	}
 }
