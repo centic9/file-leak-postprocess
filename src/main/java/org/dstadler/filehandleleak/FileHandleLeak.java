@@ -97,6 +97,11 @@ public record FileHandleLeak(String header, String stacktrace) {
 			// we have to actually read the line now
 			stack = reader.readLine();
 
+			// normalize to leading tabs, sometimes output contains 8 spaces instead
+			if (stack.startsWith("        ")) {
+				stack = "\t" + StringUtils.removeStart(stack, "        ");
+			}
+
 			// check if this line should be removed from stacktraces
 			if (isIgnored(stack)) {
 				// add a ... for each removed block

@@ -75,8 +75,8 @@ class FileHandleLeakTest {
 
 		assertNotNull(leak);
 		assertTrue(StringUtils.isNotBlank(leak.header()));
-		assertEquals("        stack1\n        stack2\n", leak.stacktrace());
-		assertEquals("        stack2", leak.getLastLine());
+		assertEquals("\tstack1\n\tstack2\n", leak.stacktrace());
+		assertEquals("\tstack2", leak.getLastLine());
 	}
 
 	@Test
@@ -164,8 +164,8 @@ class FileHandleLeakTest {
 
 		assertNotNull(leak);
 		assertTrue(StringUtils.isNotBlank(leak.header()));
-		assertEquals("        stack1\n\t...\n        stack2\n\t...\n", leak.stacktrace());
-		assertEquals("        stack2", leak.getLastLine());
+		assertEquals("\tstack1\n\t...\n\tstack2\n\t...\n", leak.stacktrace());
+		assertEquals("\tstack2", leak.getLastLine());
 	}
 
 	@Test
