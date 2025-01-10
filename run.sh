@@ -3,7 +3,7 @@
 set -eu
 
 OUTFILE=/tmp/file-handle-leaks.txt
-TOOLDIR=`dirname $0`
+TOOL_DIR=$(dirname "$0")
 
 if [ $# -lt 1 ]; then
   echo Specify one or more text-files with stacktraces produced by file-leak-detector
@@ -17,10 +17,10 @@ if [ $# -lt 1 ]; then
 fi
 
 # run file-leak-postprocess with the given files
-(cd "${TOOLDIR}" && ./gradlew check installDist)
+(cd "${TOOL_DIR}" && ./gradlew check installDist)
 
 echo
-"${TOOLDIR}/build/install/file-leak-postprocess/bin/file-leak-postprocess" "$@" > ${OUTFILE}
+"${TOOL_DIR}/build/install/file-leak-postprocess/bin/file-leak-postprocess" "$@" > ${OUTFILE}
 
 echo
 echo Written combined stacktraces to ${OUTFILE}
