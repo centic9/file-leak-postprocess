@@ -22,6 +22,7 @@
 (?:	|\s*)at java.base/jdk.internal.reflect.*
 (?:	|\s*)at jdk.internal.reflect.GeneratedConstructorAccessor\d+.newInstance.*
 (?:	|\s*)at jdk.internal.reflect.GeneratedMethodAccessor\d+.invoke.*
+(?:	|\s*)at jdk.proxy1/jdk.proxy1.\$Proxy.*
 (?:	|\s*)at org.gradle.api.internal.*
 (?:	|\s*)at org.gradle.internal.*
 (?:	|\s*)at org.gradle.process.*
