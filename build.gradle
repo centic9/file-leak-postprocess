@@ -2,11 +2,16 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'jacoco'
 
-sourceCompatibility = JavaVersion.VERSION_17
-
-mainClassName = 'org.dstadler.filehandleleak.PostProcessFileHandleLeaks'
-applicationDefaultJvmArgs = ['-Xmx256m', '-XX:+HeapDumpOnOutOfMemoryError']
-version = '1.0'
+java {
+  toolchain {
+	  sourceCompatibility = JavaVersion.VERSION_17
+  }
+}
+application {
+    mainClass = 'org.dstadler.filehandleleak.PostProcessFileHandleLeaks'
+	applicationDefaultJvmArgs = ['-Xmx128m', '-XX:+HeapDumpOnOutOfMemoryError']
+	version = '1.0'
+}
 
 jar {
     manifest {
@@ -14,8 +19,8 @@ jar {
     }
 }
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+tasks.withType(JavaCompile).configureEach {
+	options.encoding = 'UTF-8'
 }
 
 repositories {
