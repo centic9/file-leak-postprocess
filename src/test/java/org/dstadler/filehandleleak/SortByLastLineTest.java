@@ -28,7 +28,7 @@ class SortByLastLineTest {
 								"\tstack2\n" +
 								"no stack any more"))));
 		assertNotNull(leak1);
-		leaksByStacktrace.put(leak1.getHeader(), leak1);
+		leaksByStacktrace.put(leak1.header(), leak1);
 
 		FileHandleLeak leak2 = FileHandleLeak.parse(
 				"#226 /opt//OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
@@ -37,7 +37,7 @@ class SortByLastLineTest {
 								"\tstack2\n" +
 								"no stack any more"))));
 		assertNotNull(leak2);
-		leaksByStacktrace.put(leak2.getHeader(), leak2);
+		leaksByStacktrace.put(leak2.header(), leak2);
 
 		FileHandleLeak leak3 = FileHandleLeak.parse(
 				"#228 /opt//OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
@@ -46,7 +46,7 @@ class SortByLastLineTest {
 								"\tstack3\n" +
 								"no stack any more"))));
 		assertNotNull(leak3);
-		leaksByStacktrace.put(leak3.getHeader(), leak3);
+		leaksByStacktrace.put(leak3.header(), leak3);
 
 		FileHandleLeak leak4 = FileHandleLeak.parse(
 				"#229 /opt//OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
@@ -55,7 +55,7 @@ class SortByLastLineTest {
 								"\tstack2\n" +
 								"no stack any more"))));
 		assertNotNull(leak4);
-		leaksByStacktrace.put(leak4.getHeader(), leak4);
+		leaksByStacktrace.put(leak4.header(), leak4);
 
 		FileHandleLeak leak5 = FileHandleLeak.parse(
 				"#230 /opt//OnPremTestButtonWidget.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022",
@@ -64,17 +64,17 @@ class SortByLastLineTest {
 								"\tstack2\n" +
 								"other stack any more"))));
 		assertNotNull(leak5);
-		leaksByStacktrace.put(leak5.getHeader(), leak5);
+		leaksByStacktrace.put(leak5.header(), leak5);
 
 		Comparator<String> comp = new SortByLastLine(leaksByStacktrace);
 
-		assertEquals(0, comp.compare(leak1.getHeader(), leak2.getHeader()));
-		assertTrue(comp.compare(leak1.getHeader(), leak3.getHeader()) < 0,
-				"Had: " + comp.compare(leak1.getHeader(), leak3.getHeader()));
-		assertTrue(comp.compare(leak3.getHeader(), leak1.getHeader()) > 0,
-				"Had: " + comp.compare(leak3.getHeader(), leak1.getHeader()));
-		assertTrue(comp.compare(leak4.getHeader(), leak5.getHeader()) < 0,
-				"Had: " + comp.compare(leak4.getHeader(), leak5.getHeader()));
+		assertEquals(0, comp.compare(leak1.header(), leak2.header()));
+		assertTrue(comp.compare(leak1.header(), leak3.header()) < 0,
+				"Had: " + comp.compare(leak1.header(), leak3.header()));
+		assertTrue(comp.compare(leak3.header(), leak1.header()) > 0,
+				"Had: " + comp.compare(leak3.header(), leak1.header()));
+		assertTrue(comp.compare(leak4.header(), leak5.header()) < 0,
+				"Had: " + comp.compare(leak4.header(), leak5.header()));
 	}
 
 	@Test
@@ -89,13 +89,13 @@ class SortByLastLineTest {
 								"\tstack2\n" +
 								"no stack any more"))));
 		assertNotNull(leak);
-		leaksByStacktrace.put(leak.getHeader(), leak);
+		leaksByStacktrace.put(leak.header(), leak);
 
 		//noinspection ResultOfMethodCallIgnored
 		assertThrows(IllegalStateException.class,
-				() -> comp.compare(leak.getHeader(), "blabla"));
+				() -> comp.compare(leak.header(), "blabla"));
 		//noinspection ResultOfMethodCallIgnored
 		assertThrows(IllegalStateException.class,
-				() -> comp.compare("blabla2", leak.getHeader()));
+				() -> comp.compare("blabla2", leak.header()));
 	}
 }

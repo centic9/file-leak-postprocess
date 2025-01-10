@@ -23,8 +23,8 @@ class FileHandleLeakTest {
 	@Test
 	public void testConstruct() {
 		FileHandleLeak leak = new FileHandleLeak("header", "stacktrace");
-		assertEquals("header", leak.getHeader());
-		assertEquals("stacktrace", leak.getStacktrace());
+		assertEquals("header", leak.header());
+		assertEquals("stacktrace", leak.stacktrace());
 		assertEquals("stacktrace", leak.getLastLine());
 	}
 
@@ -42,8 +42,8 @@ class FileHandleLeakTest {
 				new BufferedReaderWithPeek(new BufferedReader(new NullReader())));
 
 		assertNotNull(leak);
-		assertTrue(StringUtils.isNotBlank(leak.getHeader()));
-		assertEquals("", leak.getStacktrace());
+		assertTrue(StringUtils.isNotBlank(leak.header()));
+		assertEquals("", leak.stacktrace());
 		assertEquals("", leak.getLastLine());
 	}
 
@@ -58,8 +58,8 @@ class FileHandleLeakTest {
 								no stack any more"""))));
 
 		assertNotNull(leak);
-		assertTrue(StringUtils.isNotBlank(leak.getHeader()));
-		assertEquals("\tstack1\n\tstack2\n", leak.getStacktrace());
+		assertTrue(StringUtils.isNotBlank(leak.header()));
+		assertEquals("\tstack1\n\tstack2\n", leak.stacktrace());
 		assertEquals("\tstack2", leak.getLastLine());
 	}
 
@@ -74,8 +74,8 @@ class FileHandleLeakTest {
 								no stack any more"""))));
 
 		assertNotNull(leak);
-		assertTrue(StringUtils.isNotBlank(leak.getHeader()));
-		assertEquals("        stack1\n        stack2\n", leak.getStacktrace());
+		assertTrue(StringUtils.isNotBlank(leak.header()));
+		assertEquals("        stack1\n        stack2\n", leak.stacktrace());
 		assertEquals("        stack2", leak.getLastLine());
 	}
 
@@ -93,33 +93,33 @@ class FileHandleLeakTest {
 				if (leak != null) {
 					count++;
 
-					assertNotNull(leak.getHeader());
-					String stacktrace = leak.getStacktrace();
+					assertNotNull(leak.header());
+					String stacktrace = leak.stacktrace();
 					assertNotNull(stacktrace);
 					assertNotNull(leak.getLastLine());
 
 					assertFalse(leak.getLastLine().contains("..."),
-							"Had: " + leak.getHeader() + "\n"  + stacktrace + "\n\n" +
+							"Had: " + leak.header() + "\n"  + stacktrace + "\n\n" +
 									leak.getLastLine() );
 
 					// we want to replace all lines for some packages
 					assertFalse(stacktrace.contains("junit"),
-							"Had: " + leak.getHeader() + "\n"  + stacktrace + "\n\n" +
+							"Had: " + leak.header() + "\n"  + stacktrace + "\n\n" +
 									leak.getLastLine() );
 					assertFalse(stacktrace.contains("mockito"),
-							"Had: " + leak.getHeader() + "\n"  + stacktrace + "\n\n" +
+							"Had: " + leak.header() + "\n"  + stacktrace + "\n\n" +
 									leak.getLastLine() );
 					assertFalse(stacktrace.contains("gradle"),
-							"Had: " + leak.getHeader() + "\n"  + stacktrace + "\n\n" +
+							"Had: " + leak.header() + "\n"  + stacktrace + "\n\n" +
 									leak.getLastLine() );
 					assertFalse(stacktrace.contains("java.util"),
-							"Had: " + leak.getHeader() + "\n"  + stacktrace + "\n\n" +
+							"Had: " + leak.header() + "\n"  + stacktrace + "\n\n" +
 									leak.getLastLine() );
 					assertFalse(stacktrace.contains("java.lang"),
-							"Had: " + leak.getHeader() + "\n"  + stacktrace + "\n\n" +
+							"Had: " + leak.header() + "\n"  + stacktrace + "\n\n" +
 									leak.getLastLine() );
 					assertFalse(stacktrace.contains("akka.dispatch.forkjoin"),
-							"Had: " + leak.getHeader() + "\n"  + stacktrace + "\n\n" +
+							"Had: " + leak.header() + "\n"  + stacktrace + "\n\n" +
 									leak.getLastLine() );
 				}
 			}
@@ -143,8 +143,8 @@ class FileHandleLeakTest {
 								no stack any more"""))));
 
 		assertNotNull(leak);
-		assertTrue(StringUtils.isNotBlank(leak.getHeader()));
-		assertEquals("\tstack1\n\t...\n\tstack2\n\t...\n", leak.getStacktrace());
+		assertTrue(StringUtils.isNotBlank(leak.header()));
+		assertEquals("\tstack1\n\t...\n\tstack2\n\t...\n", leak.stacktrace());
 		assertEquals("\tstack2", leak.getLastLine());
 	}
 

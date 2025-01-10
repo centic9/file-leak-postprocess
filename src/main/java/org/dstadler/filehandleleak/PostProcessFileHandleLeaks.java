@@ -68,8 +68,8 @@ public class PostProcessFileHandleLeaks {
 		Multimap<String, FileHandleLeak> leaksByStacktrace = HashMultimap.create();
 		MappedCounter<String> uniqueStacks = new MappedCounterImpl<>();
 		for (FileHandleLeak leak : leaks) {
-			uniqueStacks.inc(leak.getStacktrace());
-			leaksByStacktrace.put(leak.getStacktrace(), leak);
+			uniqueStacks.inc(leak.stacktrace());
+			leaksByStacktrace.put(leak.stacktrace(), leak);
 		}
 
 		// print an overview to stderr
@@ -83,7 +83,7 @@ public class PostProcessFileHandleLeaks {
 		for (String stackTrace : sortedStacktraces) {
 			// print all headers
 			for (FileHandleLeak fileHandleLeak : leaksByStacktrace.get(stackTrace)) {
-				System.out.println(fileHandleLeak.getHeader());
+				System.out.println(fileHandleLeak.header());
 			}
 
 			System.out.println(stackTrace);

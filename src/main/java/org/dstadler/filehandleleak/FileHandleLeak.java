@@ -16,16 +16,17 @@ import com.google.common.annotations.VisibleForTesting;
 
 /**
  * This class handles reported stacktraces from file-leak-detector.
- *
+ * <p>
  * Method parse() will check if the line indicates the start of a stacktrace.
  * It will read all stacktrace-lines and return an object that can be used
  * for further processing.
- *
+ * <p>
  * Lines listed in {@link org.dstadler.filehandleleak.FileHandleLeak#IGNORE_PATTERN_FILE}
  * are removed from stacktraces to make them as small as possible, while still retaining
  * all the required information for analysing and fixing the file-handle leaks.
  */
-public class FileHandleLeak {
+public record FileHandleLeak(String header, String stacktrace) {
+
 	public static final String IGNORE_PATTERN_FILE = "ignore_pattern.txt";
 
 	// #228 /opt/cluster/bin/main/com/ebui/gwt/common/widgets/Search.ui.xml by thread:Test worker on Sat Mar 12 07:55:16 CET 2022
@@ -39,7 +40,7 @@ public class FileHandleLeak {
 	}
 
 	@VisibleForTesting
-	protected static List<Pattern> readIgnorePatterns(InputStream stream) {
+	static List<Pattern> readIgnorePatterns(InputStream stream) {
 		if (stream == null) {
 			throw new IllegalStateException("Could not read file " + IGNORE_PATTERN_FILE + " from classpath");
 		}
@@ -65,9 +66,6 @@ public class FileHandleLeak {
 
 		return patterns;
 	}
-
-	private final String header;
-	private final String stacktrace;
 
 	/**
 	 * Check if this line is the start of a stacktrace.
@@ -126,21 +124,8 @@ public class FileHandleLeak {
 		return false;
 	}
 
-	public FileHandleLeak(String header, String stacktrace) {
-		this.header = header;
-		this.stacktrace = stacktrace;
-	}
-
-	public String getStacktrace() {
-		return stacktrace;
-	}
-
-	public String getHeader() {
-		return header;
-	}
-
 	public String getLastLine() {
 		String[] lines = StringUtils.removeEnd(stacktrace, "\t...\n").split("\n");
-		return lines[lines.length-1];
+		return lines[lines.length - 1];
 	}
 }
