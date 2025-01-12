@@ -4,13 +4,13 @@ apply plugin: 'jacoco'
 
 java {
   toolchain {
-	  sourceCompatibility = JavaVersion.VERSION_17
+      sourceCompatibility = JavaVersion.VERSION_17
   }
 }
 application {
     mainClass = 'org.dstadler.filehandleleak.PostProcessFileHandleLeaks'
-	applicationDefaultJvmArgs = ['-Xmx128m', '-XX:+HeapDumpOnOutOfMemoryError']
-	version = '1.0'
+    applicationDefaultJvmArgs = ['-Xmx128m', '-XX:+HeapDumpOnOutOfMemoryError']
+    version = '1.0'
 }
 
 jar {
@@ -20,7 +20,7 @@ jar {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	options.encoding = 'UTF-8'
+    options.encoding = 'UTF-8'
 }
 
 repositories {
@@ -29,14 +29,14 @@ repositories {
 
 dependencies {
     implementation 'commons-io:commons-io:2.18.0'
-	implementation 'org.apache.commons:commons-lang3:3.17.0'
+    implementation 'org.apache.commons:commons-lang3:3.17.0'
     implementation 'org.dstadler:commons-dost:1.3.4'
-	implementation 'com.google.guava:guava:33.4.0-jre'
+    implementation 'com.google.guava:guava:33.4.0-jre'
 
     testImplementation 'org.dstadler:commons-test:1.0.0.21'
-	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.4'
-	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.11.4'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.4'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.4'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.11.4'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.4'
 }
 
 wrapper {
@@ -44,9 +44,9 @@ wrapper {
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 jacoco {
-	toolVersion = '0.8.12'
+    toolVersion = '0.8.12'
 }
