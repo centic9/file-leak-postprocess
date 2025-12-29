@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.dstadler.commons.io.BufferedReaderWithPeek;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -99,7 +100,7 @@ public record FileHandleLeak(String header, String stacktrace) {
 
 			// normalize to leading tabs, sometimes output contains 8 spaces instead
 			if (stack.startsWith("        ")) {
-				stack = "\t" + StringUtils.removeStart(stack, "        ");
+				stack = "\t" + Strings.CS.removeStart(stack, "        ");
 			}
 
 			// check if this line should be removed from stacktraces
@@ -130,7 +131,7 @@ public record FileHandleLeak(String header, String stacktrace) {
 	}
 
 	public String getLastLine() {
-		String[] lines = StringUtils.removeEnd(stacktrace, "\t...\n").split("\n");
+		String[] lines = Strings.CS.removeEnd(stacktrace, "\t...\n").split("\n");
 		return lines[lines.length - 1];
 	}
 }

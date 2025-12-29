@@ -3,7 +3,7 @@ package org.dstadler.filehandleleak;
 import java.util.Collection;
 import java.util.Comparator;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Multimap;
@@ -25,7 +25,7 @@ public class SortByLastLine implements Comparator<String> {
 	@Override
 	public int compare(String o1, String o2) {
 		// equal header is equal as this is the key in the map
-		if (StringUtils.equals(o1, o2)) {
+		if (Strings.CS.equals(o1, o2)) {
 			return 0;
 		}
 

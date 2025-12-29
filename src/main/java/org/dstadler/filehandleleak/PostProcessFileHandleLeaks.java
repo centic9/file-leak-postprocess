@@ -73,7 +73,7 @@ public class PostProcessFileHandleLeaks {
 		}
 
 		// print an overview to stderr
-		System.err.println("Had " + uniqueStacks.sortedMap().keySet().size() + " unique stacktraces: " + uniqueStacks.sortedMap().values());
+		System.err.println("Had " + uniqueStacks.sortedMap().size() + " unique stacktraces: " + uniqueStacks.sortedMap().values());
 
 		// sort lines by the "last line" of the stacktrace to have similar leaks grouped together
 		Set<String> sortedStacktraces = new TreeSet<>(new SortByLastLine(leaksByStacktrace));
